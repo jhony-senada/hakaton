@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+    <title>Place_Holder</title>
+</head>
+<body>
+    <form action="/recibir_mensaje" method="POST">
+        <input type="text" name="mensaje_usuario" placeholder="Escribe aquí...">
+        
+        <button type="submit">Mandar Mensaje al Bot</button>
+    </form>
+</body>
+</html>
