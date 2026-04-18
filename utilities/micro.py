@@ -47,7 +47,14 @@ async def procesar_mensaje_usuario(sesion_activa, mensaje_usuario):
                 WHERE id_grupo = ?""",
                 (grupo_actual,)
             )
-    print(f"DEBUG: Datos recuperados para {matricula} (rol: {rol_actual}): {datos_recuperados}")
+    if not datos_recuperados and rol_actual=='admin':
+        datos_recuperados = {
+            "clases": db.ejecutar_query("SELECT * FROM clases_horarios"),
+            "profesores": db.ejecutar_query("SELECT * FROM profesores"),
+            "tramites": db.ejecutar_query("SELECT * FROM tramites"),
+            "eventos": db.ejecutar_query("SELECT * FROM eventos_calendario"),
+            "edificios": db.ejecutar_query("SELECT * FROM edificios"),
+        }
     prompt_final = f"""
     Eres un asistente escolar estricto y amable tu nombre es 'Academic Inteligence'.
     Regla 1: Solo debes responder basándote en la información proporcionada abajo.
