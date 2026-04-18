@@ -19,7 +19,7 @@ services:
   tunnel:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared-tunnel
-    # Este comando crea un túnel temporal y te dará la URL en la terminal
-    command: tunnel --no-autoupdate run --url http://web:5000
+    # Eliminamos la palabra 'run' para que sea un túnel rápido
+    command: tunnel --no-autoupdate --url http://web:5000
     depends_on:
       - web
