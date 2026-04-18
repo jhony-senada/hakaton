@@ -4,8 +4,10 @@ from elevenlabs.client import ElevenLabs
 import os
 import httpx
 import io # <-- Agrega esto para manejar el archivo de audio en la memoria
+from utilities.webhook import webhook_bp
 
 app = Flask(__name__)
+app.register_blueprint(webhook_bp, url_prefix='/hooks')
 
 http_client_inseguro = httpx.Client(verify=False)
 

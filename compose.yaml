@@ -7,7 +7,11 @@ services:
       - "5000:5000"
     volumes:
       - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock # Permite controlar Docker
     environment:
       - PYTHONUNBUFFERED=1
       - GEMINI_KEY=AIzaSyDZLxTECLnYSVHUv5POQ6ZpwgJpr-sRSds
       - ELEVEN_KEY=sk_c3f288a1f45dcca3463b5963681e605c3775895f4712087b
+      - GITHUB_WEBHOOK=CarlosCarlos
+
+      
