@@ -1,19 +1,51 @@
-import asyncio
-from flask import Flask, request, jsonify, session
-import micro  # Importamos tu lógica de Gemini
+from flask import Flask, render_template, request, send_file # <-- Agrega send_file
+from elevenlabs.client import ElevenLabs
+# from elevenlabs.play import play <-- ¡Borra o comenta esta línea! Ya no la usaremos.
+import os
+import httpx
+import io # <-- Agrega esto para manejar el archivo de audio en la memoria
 
 app = Flask(__name__)
-app.secret_key = "super_secreto_uaq"
 
-@app.route('/api/chat', methods=['POST'])
-def chat_bot():
-    data = request.get_json()
-    mensaje_usuario = data.get("mensaje", "")
+http_client_inseguro = httpx.Client(verify=False)
 
-    if "matricula" not in session:
-        session["matricula"] = data.get("matricula", "INVITADO")
-    sesion_activa = {
-        "matricula": session["matricula"]
-    }
-    respuesta = asyncio.run(micro.procesar_mensaje_usuario(sesion_activa, mensaje_usuario))
-    return jsonify({"respuesta": respuesta})
+client = ElevenLabs(
+    api_key=os.getenv("ELEVEN_KEY"),
+    httpx_client=http_client_inseguro 
+)
+
+@app.route('/')
+def inicio():
+    return render_template('index.html')
+
+@app.route('/saludo/<nombre>')
+def saludar(nombre):
+    return f"Hola {nombre}, bienvenido a mi API básica."
+
+@app.route('/recibir_mensaje', methods=['POST'])
+def recibir():
+    texto = request.form.get('mensaje_usuario')
+    
+    print("--------------------------------------------------")
+    print(f"NUEVO MENSAJE RECIBIDO: {texto}")
+    print("--------------------------------------------------")
+
+    # ElevenLabs genera el audio (nos devuelve un "generador" de pedacitos de audio)
+    audio_generador = client.text_to_speech.convert(
+        text=texto, # <-- TIP: ¡Puse la variable 'texto' aquí para que lea lo que escribes!
+        voice_id="zl7szWVBXnpgrJmAalgz",
+        model_id="eleven_multilingual_v2",
+        output_format="mp3_44100_128",
+    )
+
+    # 1. Juntamos todos los pedacitos de audio en un solo bloque de datos (bytes)
+    audio_bytes = b"".join(audio_generador)
+    
+    # 2. Le mandamos ese audio directamente al navegador del usuario
+    return send_file(
+        io.BytesIO(audio_bytes),
+        mimetype="audio/mpeg"
+    )
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)

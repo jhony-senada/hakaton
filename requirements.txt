@@ -1,0 +1,4 @@
+flask
+elevenlabs
+google-genai
+sqlite3

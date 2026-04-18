@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+    <title>placeholder</title>
+</head>
+<body>
+    <h1></h1>
+    
+    <form id="chat-form">
+        <input type="text" name="mensaje_usuario" placeholder="Escribe tu mensaje..." required>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <audio id="reproductor" style="display: none;"></audio>
+
+    <script>
+        document.getElementById('chat-form').addEventListener('submit', async function(event) {
+            // Evita que la página se recargue o cambie a la pantalla negra
+            event.preventDefault(); 
+
+            // Recoge los datos del formulario
+            const formData = new FormData(this);
+
+            try {
+                // Envía los datos a Flask en segundo plano
+                const response = await fetch('/recibir_mensaje', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    // Convierte la respuesta en un archivo de audio manejable
+                    const audioBlob = await response.blob();
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    
+                    // Se lo pasamos al reproductor y le damos Play
+                    const reproductor = document.getElementById('reproductor');
+                    reproductor.src = audioUrl;
+                    reproductor.play();
+                } else {
+                    console.error("Error en el servidor");
+                }
+            } catch (error) {
+                console.error("Error de conexión:", error);
+            }
+        });
+    </script>
+</body>
+</html>
