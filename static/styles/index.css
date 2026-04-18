@@ -14,6 +14,7 @@
         .background {
             /* IMPORTANTE: Reemplaza 'tu-imagen.jpg' con la ruta de la fotografía de fondo que quieras usar */
             background-color: #1a365d; /* Color de respaldo */
+            background-image: url('../images/image-login-background.jpeg');
             background-size: cover;
             background-position: center;
             height: 100vh;

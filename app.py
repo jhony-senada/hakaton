@@ -10,6 +10,8 @@ from utilities.webhook import webhook_bp # Mover import aquí
 
 app = Flask(__name__)
 
+app.secret_key = 'una_llave_muy_secreta_y_dificil_de_adivinar'
+
 # Registrar el blueprint después de definir la app
 app.register_blueprint(webhook_bp, url_prefix='/hooks')
 
