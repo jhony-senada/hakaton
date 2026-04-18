@@ -25,10 +25,10 @@ INSERT INTO eventos_calendario (id_evento, titulo, tipo, fecha, ubicacion, rol_r
 ('EVT-003', 'Cierre de Actas y Evaluaciones', 'administrativo', '2026-06-15', 'Plataforma Docente', 'admin');
 
 -- 5. USUARIOS (Tus tres niveles de acceso)
-INSERT INTO usuarios (matricula, nombre, rol, id_grupo) VALUES
-('UAQ-ADMIN', 'Coordinación Académica', 'admin', NULL),
-('333306', 'José Carlos Cabello Silva', 'usuario', 'ISW-4A'),
-('INV-001', 'Visitante General', 'invitado', NULL);
+INSERT INTO usuarios (matricula, nombre, rol, password, id_grupo) VALUES
+('UAQ-ADMIN', 'Coordinación Académica','admin','admin123' ,'admin123', NULL),
+('333306', 'José Carlos Cabello Silva', 'usuario', 'password123', 'ISW-4A'),
+('INV-001', 'Visitante General', 'invitado', 'pass123', NULL);
 
 -- 6. CLASES Y HORARIOS (Ligados al grupo ISW-4A)
 INSERT INTO clases_horarios (id_clase, id_grupo, materia, id_profesor, id_edificio, salon, dia, hora_inicio, hora_fin) VALUES
