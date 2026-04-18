@@ -63,47 +63,55 @@ chatHeader.addEventListener('click', () => {
 // 3. TEXT-TO-SPEECH (ELEVENLABS PLACEHOLDER)
 // ==========================================
 let isTtsEnabled = false;
+let currentAudio = null;//Para controlar el audio actual y detenerlo si se desactiva el TTS
 
 ttsToggleBtn.addEventListener('click', () => {
     isTtsEnabled = !isTtsEnabled;
     if (isTtsEnabled) {
         ttsIconOff.style.display = 'none';
         ttsIconOn.style.display = 'block';
+        const mensajesIA = document.querySelectorAll('.ai-message');
+        if (mensajesIA.length > 0) {
+            const ultimoMensaje = mensajesIA[mensajesIA.length - 1].innerText;
+            playElevenLabsAudio(ultimoMensaje);
+        }
     } else {
+        // Cambiar icono a "Apagado"
         ttsIconOff.style.display = 'block';
         ttsIconOn.style.display = 'none';
-        window.speechSynthesis.cancel(); // Detiene el audio si se apaga
+        
+        // Detener el audio inmediatamente si el usuario apaga el botón
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+        }
     }
 });
-
 function playElevenLabsAudio(text) {
     if (!isTtsEnabled) return;
-
-    /* ========================================================
-    🔴 ESPACIO PARA BACKEND: INTEGRACIÓN ELEVENLABS 🔴
-    ========================================================
-    Aquí harías el fetch a tu backend (Flask) que se conecta a ElevenLabs.
-    
-    fetch('/api/tts', {
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+    }
+    const formData = new FormData();
+    formData.append('mensaje_ia', text);
+    fetch(fetch('/recibir_mensaje', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: text })
+        body: formData
     })
-    .then(response => response.blob())
-    .then(blob => {
-        const audioUrl = URL.createObjectURL(blob);
-        const audio = new Audio(audioUrl);
-        audio.play();
-    });
-    ========================================================
-    */
-
-    // MOCKUP FRONTEND: Usamos la API del navegador mientras conectas el backend
-    console.log("Generando audio para:", text);
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'es-MX';
-    utterance.rate = 1.0; 
-    window.speechSynthesis.speak(utterance);
+    .then(response => {
+        if (!response.ok) throw new Error("Error en la respuesta del servidor");
+        return response.blob();
+    })
+    .then(audioBlob => {
+        // 3. Creamos la URL temporal y reproducimos el audio
+        const audioUrl = URL.createObjectURL(audioBlob);
+        currentAudio = new Audio(audioUrl); 
+        currentAudio.play();
+    })
+    .catch(error => {
+        console.error("Error de conexión al reproducir audio:", error);
+    }));
 }
 
 // ==========================================
