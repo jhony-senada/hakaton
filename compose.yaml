@@ -1,10 +1,8 @@
 services:
-  web:
+  app:
     build: .
     container_name: academic-intelligence
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
+    dns: ["8.8.8.8", "8.8.4.4"]
     ports:
       - "5000:5000"
     volumes:
@@ -15,11 +13,9 @@ services:
       - GEMINI_KEY=AIzaSyDZLxTECLnYSVHUv5POQ6ZpwgJpr-sRSds
       - ELEVEN_KEY=sk_c3f288a1f45dcca3463b5963681e605c3775895f4712087b
       - GITHUB_WEBHOOK=CarlosCarlos
+    networks:
+      - red-h
 
-  tunnel:
-    image: cloudflare/cloudflared:latest
-    container_name: cloudflared-tunnel
-    # Eliminamos la palabra 'run' para que sea un túnel rápido
-    command: tunnel --no-autoupdate --url http://web:5000
-    depends_on:
-      - web
+networks:
+  red-h:
+    external: true
