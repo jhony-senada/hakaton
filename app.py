@@ -4,19 +4,16 @@ from elevenlabs.client import ElevenLabs
 import os
 import httpx
 import io # <-- Agrega esto para manejar el archivo de audio en la memoria
-<<<<<<< HEAD
 import asyncio
-from utilities import micro as micro
+import utilities.micro as micro
 from utilities import base_de_datos as db
 
 app = Flask(__name__)
 app.secret_key ="super_secreto_uaq"
-=======
 from utilities.webhook import webhook_bp
 
 app = Flask(__name__)
 app.register_blueprint(webhook_bp, url_prefix='/hooks')
->>>>>>> 22c8ffaacb5beaeb8472c77e928078d1ae3656a4
 
 http_client_inseguro = httpx.Client(verify=False)
 

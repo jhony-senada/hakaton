@@ -1,6 +1,7 @@
 import asyncio
 import utilities.base_de_datos as db # ¡Aquí estamos conectando con tu archivo de SQLite3!
 from google import genai
+import os
 
 client = genai.Client(api_key=os.getenv("GEMINI-KEY"))
 
