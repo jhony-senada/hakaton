@@ -1,5 +1,3 @@
-USE UAQ_Datos;
-
 -- 1. EDIFICIOS
 INSERT INTO edificios (id_edificio, nombre, ubicacion, url_imagen) VALUES
 ('EDIF-FIF', 'Facultad de Informática', 'Campus Juriquilla', 'https://ejemplo.com/img/fif.jpg'),
@@ -24,9 +22,9 @@ INSERT INTO eventos_calendario (id_evento, titulo, tipo, fecha, ubicacion, rol_r
 ('EVT-002', 'Día del Estudiante', 'sin_clase', '2026-05-23', 'Múltiples Sedes', 'usuario'),
 ('EVT-003', 'Cierre de Actas y Evaluaciones', 'administrativo', '2026-06-15', 'Plataforma Docente', 'admin');
 
--- 5. USUARIOS (Tus tres niveles de acceso)
+-- 5. USUARIOS (Tus tres niveles de acceso corregidos)
 INSERT INTO usuarios (matricula, nombre, rol, password, id_grupo) VALUES
-('UAQ-ADMIN', 'Coordinación Académica','admin','admin123' ,'admin123', NULL),
+('UAQ-ADMIN', 'Coordinación Académica', 'admin', 'admin123', NULL),
 ('333306', 'José Carlos Cabello Silva', 'usuario', 'password123', 'ISW-4A'),
 ('INV-001', 'Visitante General', 'invitado', 'pass123', NULL);
 
