@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    "dns": ["8.8.8.8", "8.8.4.4"]
+    container_name: academic-intelligence
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+      - GEMINI_KEY=AIzaSyDZLxTECLnYSVHUv5POQ6ZpwgJpr-sRSds
+      - ELEVEN_KEY=sk_c3f288a1f45dcca3463b5963681e605c3775895f4712087b
