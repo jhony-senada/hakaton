@@ -47,11 +47,11 @@ async def procesar_mensaje_usuario(sesion_activa, mensaje_usuario):
                 WHERE id_grupo = ?""",
                 (grupo_actual,)
             )
-
+    print(f"DEBUG: Datos recuperados para {matricula} (rol: {rol_actual}): {datos_recuperados}")
     prompt_final = f"""
-    Eres un asistente escolar estricto y amable.
+    Eres un asistente escolar estricto y amable tu nombre es 'Academic Inteligence'.
     Regla 1: Solo debes responder basándote en la información proporcionada abajo.
-    Regla 2: Si la respuesta no está en la información, di 'No tengo acceso a esa información'.
+    Regla 2: Si la respuesta no se puede sacar de la información que tienes, di 'No tengo acceso a esa información Perdon :C'.
     INFORMACIÓN RECUPERADA:
     {datos_recuperados}
     """
