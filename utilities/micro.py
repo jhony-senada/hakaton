@@ -3,7 +3,7 @@ import utilities.base_de_datos as db # ¡Aquí estamos conectando con tu archivo
 from google import genai
 import os
 
-client = genai.Client(api_key=os.getenv("GEMINI-KEY"))
+client = genai.Client(api_key=os.getenv("GEMINI_KEY"))
 
 async def procesar_mensaje_usuario(sesion_activa, mensaje_usuario):
     matricula = sesion_activa.get("matricula", "INVITADO") 
