@@ -67,7 +67,7 @@ async def enviar_a_gemini(prompt_final, pregunta_del_alumno: str)->str:
         client = genai.Client(api_key=os.getenv("GEMINI_KEY"))
         
         response = await client.aio.models.generate_content(
-            model="gemini-2.5-flash-lite-latest", 
+            model="gemini-2.5-flash-lite", 
             contents=prompt
         )
         return response.text
