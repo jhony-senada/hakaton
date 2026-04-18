@@ -118,69 +118,90 @@ function playElevenLabsAudio(text) {
 // 4. SPEECH-TO-TEXT (MICRÓFONO)
 // ==========================================
 // Verificamos soporte en el navegador
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-let recognition;
+let mediaRecorder;
+let audioChunks = [];
 let isRecording = false;
 
-if (SpeechRecognition) {
-    recognition = new SpeechRecognition();
-    recognition.lang = 'es-MX';
-    recognition.interimResults = true; // Muestra lo que vas diciendo en tiempo real
+// Asegúrate de tener las referencias a tus elementos
+// const micBtn = document.getElementById('micBtn');
+// const userInput = document.getElementById('userInput');
 
-    recognition.onstart = () => {
-        isRecording = true;
-        micBtn.classList.add('recording');
-        userInput.placeholder = "Escuchando...";
-    };
-
-    recognition.onresult = (event) => {
-        let transcript = '';
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-            transcript += event.results[i][0].transcript;
-        }
-        userInput.value = transcript;
-    };
-
-    recognition.onend = () => {
-        isRecording = false;
-        micBtn.classList.remove('recording');
-        userInput.placeholder = "Escribe o habla tu mensaje...";
-        
-        /* Si quieres que se envíe automáticamente al terminar de hablar,
-        descomenta la siguiente línea:
-        */
-        // if(userInput.value.trim() !== "") sendMessage(); 
-    };
-
-    recognition.onerror = (event) => {
-        console.error("Error en el micrófono:", event.error);
-        isRecording = false;
-        micBtn.classList.remove('recording');
-        userInput.placeholder = "Error al escuchar. Intenta escribir.";
-    };
-} else {
-    micBtn.style.display = 'none'; // Oculta el botón si el navegador no lo soporta
-    console.warn("Tu navegador no soporta Web Speech API");
-}
-
-micBtn.addEventListener('click', () => {
-    if (!SpeechRecognition) return;
-    
+micBtn.addEventListener('click', async () => {
     if (isRecording) {
-        recognition.stop();
-    } else {
-        userInput.value = ''; // Limpiamos el input antes de escuchar
-        recognition.start();
+        // 1. Si está grabando, detenemos la grabación
+        mediaRecorder.stop();
+        isRecording = false;
+        micBtn.classList.remove('recording');
+        userInput.placeholder = "Procesando audio..."; // Mensaje mientras el servidor responde
         
-        /* ========================================================
-        🔴 ESPACIO PARA BACKEND: WHISPER U OTRA API STT 🔴
-        ========================================================
-        Si prefieres enviar el archivo de audio directamente al backend
-        en lugar de usar SpeechRecognition del navegador, aquí deberías
-        iniciar un MediaRecorder, capturar los chunks de audio,
-        y enviarlos por fetch() a tu ruta Flask al terminar.
-        ========================================================
-        */
+    } else {
+        // 2. Si no está grabando, pedimos permiso e iniciamos
+        try {
+            // Pedimos acceso al micrófono
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = []; // Limpiamos grabaciones anteriores
+            userInput.value = '';
+
+            // 3. Mientras el usuario habla, vamos guardando los "pedacitos" de audio
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    audioChunks.push(event.data);
+                }
+            };
+
+            // 4. Cuando el usuario detiene la grabación (al presionar el botón de nuevo)
+            mediaRecorder.onstop = async () => {
+                // Creamos un archivo "Blob" con todo el audio capturado
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' }); 
+                
+                // Preparamos los datos para enviarlos al servidor (como si fuera un formulario web)
+                const formData = new FormData();
+                formData.append('audio', audioBlob, 'grabacion.webm');
+
+                try {
+                    /* ========================================================
+                       🔴 ENVÍO AL BACKEND 🔴
+                    ======================================================== */
+                    // Cambia '/api/transcribe' por la URL real de tu servidor Flask/Node
+                    const response = await fetch('/api/transcribe', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) throw new Error("Error en el servidor");
+
+                    const data = await response.json();
+                    
+                    // Asumiendo que tu backend te devuelve el texto así: { "text": "Hola, ¿cómo estás?" }
+                    if (data.text) {
+                        userInput.value = data.text;
+                        userInput.placeholder = "Escribe o habla tu mensaje...";
+                        
+                        // Si quieres que se envíe al chat automáticamente:
+                        // sendMessage(); 
+                    }
+
+                } catch (error) {
+                    console.error("Error al enviar el audio al servidor:", error);
+                    userInput.placeholder = "Error al procesar el audio. Intenta escribir.";
+                } finally {
+                    // Apagamos el micrófono para que no se quede la luz roja encendida en el navegador
+                    stream.getTracks().forEach(track => track.stop());
+                }
+            };
+
+            // Arrancamos la grabación
+            mediaRecorder.start();
+            isRecording = true;
+            micBtn.classList.add('recording');
+            userInput.placeholder = "Escuchando...";
+
+        } catch (err) {
+            console.error("Error al acceder al micrófono:", err);
+            userInput.placeholder = "Permiso de micrófono denegado.";
+        }
     }
 });
 
