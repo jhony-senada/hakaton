@@ -1,18 +1,16 @@
-from flask import Flask, render_template,session, request, send_file, jsonify,redirect,url_for# <-- Agrega send_file
+from flask import Flask, render_template, session, request, send_file, jsonify, redirect, url_for
 from elevenlabs.client import ElevenLabs
-# from elevenlabs.play import play <-- ¡Borra o comenta esta línea! Ya no la usaremos.
 import os
 import httpx
-import io # <-- Agrega esto para manejar el archivo de audio en la memoria
+import io 
 import asyncio
 import utilities.micro as micro
 from utilities import base_de_datos as db
+from utilities.webhook import webhook_bp # Mover import aquí
 
 app = Flask(__name__)
-app.secret_key ="super_secreto_uaq"
-from utilities.webhook import webhook_bp
 
-app = Flask(__name__)
+# Registrar el blueprint después de definir la app
 app.register_blueprint(webhook_bp, url_prefix='/hooks')
 
 http_client_inseguro = httpx.Client(verify=False)
@@ -25,7 +23,7 @@ client = ElevenLabs(
 # Rutas de interfaz (HTML)
 # 
 
-print("Version2")
+print("Version3")
 
 @app.route('/')
 def index():

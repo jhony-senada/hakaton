@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-# Instalamos git y dependencias para poder instalar Docker CLI
+# Instalamos dependencias del sistema
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -8,10 +8,14 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
+
+# Copiamos e instalamos dependencias de Python
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copiamos el resto del código
 COPY . .
 
 EXPOSE 5000
+
 CMD ["python", "app.py"]
