@@ -10,7 +10,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - PYTHONUNBUFFERED=1
-      - GEMINI_KEY=AIzaSyAUrylGQ7X_lQc3h3TqF1VCEyOZz0mxzUA
       - ELEVEN_KEY=sk_c3f288a1f45dcca3463b5963681e605c3775895f4712087b
       - GITHUB_WEBHOOK=CarlosCarlos
     networks:

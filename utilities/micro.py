@@ -2,7 +2,7 @@ import asyncio
 import utilities.base_de_datos as db # ¡Aquí estamos conectando con tu archivo de SQLite3!
 from google import genai
 import os
-
+import secrets1 # Archivo para manejar tus claves de forma segura (¡no lo subas a GitHub!)
 #?client = genai.Client(api_key=os.getenv("GEMINI_KEY"))
 
 async def procesar_mensaje_usuario(sesion_activa, mensaje_usuario):
@@ -64,7 +64,7 @@ async def enviar_a_gemini(prompt_final, pregunta_del_alumno: str)->str:
     try:
         # ✅ CREAMOS el cliente DENTRO de la función.
         # De esta forma, siempre usará el "Event Loop" activo de Flask.
-        client = genai.Client(api_key=os.getenv("GEMINI_KEY"))
+        client = genai.Client(api_key=secrets1.key)
         
         response = await client.aio.models.generate_content(
             model="gemini-2.5-flash-lite", 
