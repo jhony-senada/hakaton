@@ -16,6 +16,8 @@ client = ElevenLabs(
     httpx_client=http_client_inseguro 
 )
 
+print("Version2")
+
 @app.route('/')
 def inicio():
     return render_template('index.html')
