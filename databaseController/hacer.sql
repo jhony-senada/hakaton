@@ -39,6 +39,7 @@ CREATE TABLE usuarios (
     matricula VARCHAR(50) PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     rol ENUM('invitado', 'usuario', 'admin') NOT NULL DEFAULT 'invitado',
+    password VARCHAR(255) NOT NULL, -- NUEVA COLUMNA PARA CONTRASEÑA
     id_grupo VARCHAR(50) -- Puede ser NULL para admins o invitados
 );
 

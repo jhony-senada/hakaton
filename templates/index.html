@@ -17,19 +17,54 @@
             </div>
             
             <div class="input-group">
-                <input type="text" placeholder="Nombre" required>
+                <input type="text" id="nombreInput" placeholder="Nombre">
             </div>
             <div class="input-group">
-                <input type="text" placeholder="Expediente" required>
+                <input type="text" id="expedienteInput" placeholder="Expediente" required>
             </div>
             <div class="input-group">
-                <input type="password" placeholder="Contraseña" required>
+                <input type="password" id="passwordInput" placeholder="Contraseña" required>
             </div>
             
-            <button class="btn-ingresar">INGRESAR</button>
+            <button class="btn-ingresar" id="btnLogin">INGRESAR</button>
+            <p id="loginError" style="color: #ff6b6b; font-size: 12px; margin-top: 10px; display: none; text-align: center;">Credenciales incorrectas</p>
             
         </div>
     </div>
+    <script>
+        document.getElementById('btnLogin').addEventListener('click', async () => {
+            const expediente = document.getElementById('expedienteInput').value;
+            const password = document.getElementById('passwordInput').value;
+            const errorText = document.getElementById('loginError');
 
+            if(!expediente || !password) {
+                alert("Por favor llena tu expediente y contraseña");
+                return;
+            }
+
+            try {
+                // Hacemos la petición al nuevo app.py
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ expediente: expediente, password: password })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Guardamos la matrícula en el navegador para que chat.js la use
+                    localStorage.setItem('matricula', data.matricula);
+                    
+                    // Redirigimos al portal principal
+                    window.location.href = '/menu';
+                } else {
+                    errorText.style.display = 'block';
+                }
+            } catch (error) {
+                console.error("Error en el login:", error);
+            }
+        });
+    </script>
 </body>
 </html>
