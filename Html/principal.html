@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal UAQ</title>
+    <link rel="stylesheet" href="principal.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo-container">
+            UNIVERSIDAD<br>AUTÓNOMA<br>DE QUERÉTARO
+        </div>
+        <div class="portal-title">Portal UAQ</div>
+    </header>
+
+    <div class="sub-header">
+        <div class="menu-toggle" id="menuToggleBtn">
+            <span class="hamburger-icon">≡</span> Menú
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="">
+            <span class="search-icon">🔍</span>
+        </div>
+    </div>
+
+    <div class="layout-container">
+        
+        <nav class="sidebar" id="sidebarMenu">
+            <ul>
+                <li>HORARIO</li>
+                <li>SALONES</li>
+                <li>MATERIAS</li>
+                <li>PROFESORES</li>
+                <li>EVENTOS</li>
+                <li>TRAMITES</li>
+                <li>PERFIL</li>
+            </ul>
+        </nav>
+
+        <main class="main-content" id="mainContent">
+            
+            <section class="hero-section">
+                <img src="WhatsApp Image 2026-04-17 at 7.28.06 PM.jpeg" class="hero-image" alt="Estudiantes">
+                <div class="arrow left"></div>
+                <div class="arrow right"></div>
+            </section>
+
+            <section class="info-section">
+                <div class="image-card" >
+                    <img src="WhatsApp Image 2026-04-17 at 7.28.13 PM.jpeg" width="250" height="250" alt="Estudiante programando">
+                    <div class="image-card-title">ESTUDIANTES</div>
+                </div>
+
+                <div class="links-container">
+                    <ul class="primary-links">
+                        <li>ASPIRANTES</li>
+                        <li>ESTUDIANTES</li>
+                        <li>PERSONAL ACADÉMICO</li>
+                        <li>PERSONAL ADMINISTRATIVO</li>
+                        <li>COMUNIDAD EGRESADA</li>
+                        <li>GENERAL</li>
+                    </ul>
+                    <ul class="secondary-links">
+                        <li>Oferta Académica</li>
+                        <li>Admisión - Licenciaturas:</li>
+                        <li>Admisión - Bachilleres:</li>
+                        <li>Admisión - Posgrados:</li>
+                        <li>Calendario Institucional</li>
+                        <li>Movilidad nacional/internacional</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="ai-chat-widget" id="aiChatWidget">
+        <div class="resizer" id="chatResizer"></div>
+        <div class="chat-header" id="chatHeader">
+            Asesor UAQ
+            <span class="collapse-icon">^</span>
+        </div>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div id="messages">
+                </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Escribe tu mensaje...">
+                <button id="sendButton">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" fill="#3D85C6"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="chat.js"></script>
+    <script>
+        const menuBtn = document.getElementById('menuToggleBtn');
+        const sidebar = document.getElementById('sidebarMenu');
+        const mainContent = document.getElementById('mainContent');
+
+        menuBtn.addEventListener('click', () => {
+            // Alterna la clase 'open' en el sidebar
+            sidebar.classList.toggle('open');
+            // Alterna la clase 'shifted' en el contenido para empujarlo
+            mainContent.classList.toggle('shifted');
+        });
+    </script>
+</body>
+</html>

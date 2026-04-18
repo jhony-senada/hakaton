@@ -1,0 +1,337 @@
+/* Reseteo general */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #e8ebed;
+    overflow-x: hidden;
+}
+
+/* --- HEADER PRINCIPAL --- */
+.main-header {
+    background-color: #0b132b;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    height: 60px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.portal-title {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+/* --- SUB-HEADER --- */
+.sub-header {
+    background-color: #d1d6db;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px;
+    height: 50px;
+    border-bottom: 1px solid #c0c5ca;
+}
+
+.menu-toggle {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+
+.hamburger-icon {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    border-radius: 20px;
+    border: 1px solid #aaa;
+    padding: 5px 35px 5px 15px;
+    background-color: #8c8c8c;
+    color: white;
+    outline: none;
+    width: 250px;
+    height: 30px;
+}
+
+.search-bar input:focus {
+    background-color: #7a7a7a;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* --- CONTENEDOR PRINCIPAL Y SIDEBAR --- */
+.layout-container {
+    display: flex;
+    position: relative;
+    min-height: calc(100vh - 110px);
+    transition: transform 0.3s ease;
+}
+
+.sidebar {
+    background-color: #dce0e5;
+    width: 200px;
+    position: absolute;
+    left: -200px;
+    top: 0;
+    bottom: 0;
+    z-index: 10;
+    transition: left 0.3s ease;
+    border-right: 1px solid #ccc;
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 20px 0;
+}
+
+.sidebar li {
+    padding: 15px 20px;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.sidebar li:hover {
+    background-color: #cdd1d6;
+}
+
+.main-content {
+    flex-grow: 1;
+    width: 100%;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content.shifted {
+    margin-left: 200px;
+}
+
+/* --- SECCIÓN HERO --- */
+.hero-section {
+    position: relative;
+    background-color: #6da5c0;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.arrow {
+    z-index: 2;
+    background-color: rgba(150, 150, 150, 0.5);
+    color: white;
+    font-size: 40px;
+    padding: 20px 5px;
+    cursor: pointer;
+    user-select: none;
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+    width: 40px;
+    height: 80px;
+}
+
+.arrow.right {
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+/* --- SECCIÓN DE ENLACES --- */
+.info-section {
+    display: flex;
+    padding: 40px;
+    gap: 50px;
+    background-color: #e8ebed;
+}
+
+.image-card {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    background-color: #ccc;
+}
+
+.image-card-title {
+    position: absolute;
+    bottom: 20%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+}
+
+.links-container {
+    display: flex;
+    gap: 40px;
+    font-family: 'Times New Roman', Times, serif; 
+}
+
+.primary-links {
+    list-style-type: disc;
+    padding-left: 20px;
+    border-right: 1px solid #777;
+    padding-right: 40px;
+}
+
+.primary-links li {
+    margin-bottom: 8px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.secondary-links {
+    list-style-type: none;
+}
+
+.secondary-links li {
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+/* --- WIDGET DE CHAT DE IA AJUSTABLE --- */
+.ai-chat-widget {
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+    width: 320px; /* Ancho inicial */
+    min-width: 280px;
+    max-width: 95vw;
+    z-index: 1000;
+    background: linear-gradient(135deg, #101520 0%, #080b11 100%);
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 40px; /* Altura colapsado */
+    transition: height 0.3s ease, width 0.3s ease;
+}
+
+.ai-chat-widget.open {
+    height: 500px; /* Altura inicial al abrir */
+    min-height: 150px;
+    max-height: 90vh;
+    transition: none; /* Quitamos la transición al estar abierto para que el resize sea fluido */
+}
+
+/* Tirador para cambiar el tamaño (Top-Left) */
+.resizer {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: nwse-resize;
+    z-index: 1001;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 50%, transparent 50%);
+    display: none; /* Oculto por defecto */
+}
+
+.ai-chat-widget.open .resizer {
+    display: block; /* Solo se muestra cuando el chat está abierto */
+}
+
+/* Asegurar que el cuerpo del chat ocupe el espacio disponible */
+.chat-body {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-input-area {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #101520;
+}
+
+#userInput {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 14px;
+    outline: none;
+}
+
+#userInput::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#sendButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mensajes de chat (Nuevos estilos oscuros) */
+.user-message, .ai-message {
+    max-width: 80%;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: white;
+}
+
+.user-message {
+    align-self: flex-end;
+    background-color: #3D85C6; /* Azul como en el diseño */
+}
+
+.ai-message {
+    align-self: flex-start;
+    background-color: #333333; /* Gris oscuro como en el diseño */
+}
