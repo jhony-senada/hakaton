@@ -1,17 +1,25 @@
 services:
   web:
     build: .
-    "dns": ["8.8.8.8", "8.8.4.4"]
     container_name: academic-intelligence
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     ports:
       - "5000:5000"
     volumes:
       - .:/app
-      - /var/run/docker.sock:/var/run/docker.sock # Permite controlar Docker
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - PYTHONUNBUFFERED=1
       - GEMINI_KEY=AIzaSyDZLxTECLnYSVHUv5POQ6ZpwgJpr-sRSds
       - ELEVEN_KEY=sk_c3f288a1f45dcca3463b5963681e605c3775895f4712087b
       - GITHUB_WEBHOOK=CarlosCarlos
 
-      
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared-tunnel
+    # Este comando crea un túnel temporal y te dará la URL en la terminal
+    command: tunnel --no-autoupdate run --url http://web:5000
+    depends_on:
+      - web
