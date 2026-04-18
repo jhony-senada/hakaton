@@ -50,7 +50,6 @@
             <section class="info-section">
                 <div class="image-card" >
                     <img src="WhatsApp Image 2026-04-17 at 7.28.13 PM.jpeg" width="250" height="250" alt="Estudiante programando">
-                    <div class="image-card-title">ESTUDIANTES</div>
                 </div>
 
                 <div class="links-container">
@@ -81,13 +80,22 @@
             Asesor UAQ
             <span class="collapse-icon">^</span>
         </div>
-        </div>
         <div class="chat-body" id="chatBody">
             <div id="messages">
                 </div>
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Escribe tu mensaje...">
-                <button id="sendButton">
+                <button id="ttsToggleBtn" class="control-btn" title="Activar voz de IA">
+                    <svg id="ttsIconOff" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                    <svg id="ttsIconOn" style="display:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3D85C6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                </button>
+
+                <input type="text" id="userInput" placeholder="Escribe o habla tu mensaje...">
+
+                <button id="micBtn" class="control-btn" title="Hablar">
+                    <svg id="micIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+                </button>
+
+                <button id="sendButton" class="send-btn">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" fill="#3D85C6"/>
                     </svg>

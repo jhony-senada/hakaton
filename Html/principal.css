@@ -243,7 +243,31 @@ body {
     height: 40px; /* Altura colapsado */
     transition: height 0.3s ease, width 0.3s ease;
 }
+/* --- ESTILOS DE LA CABECERA QUE FALTABAN --- */
+.chat-header {
+    background-color: #0b132b;
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
 
+.collapse-icon {
+    font-size: 12px;
+}
+
+.ai-chat-widget.open .collapse-icon {
+    transform: rotate(180deg);
+}
+
+/* --- ESTA ES LA REGLA QUE HACE VISIBLE EL CHAT AL ABRIR --- */
+.ai-chat-widget.open .chat-body {
+    display: flex;
+}
 .ai-chat-widget.open {
     height: 500px; /* Altura inicial al abrir */
     min-height: 150px;
@@ -334,4 +358,44 @@ body {
 .ai-message {
     align-self: flex-start;
     background-color: #333333; /* Gris oscuro como en el diseño */
+}
+/* --- NUEVOS CONTROLES DE AUDIO --- */
+.chat-input-area {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Reduje el gap para que quepan los nuevos botones */
+    background-color: #101520;
+}
+
+.control-btn, .send-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    transition: color 0.3s ease, transform 0.1s;
+    padding: 5px;
+}
+
+.control-btn:hover {
+    color: #fff;
+}
+
+.control-btn:active, .send-btn:active {
+    transform: scale(0.9);
+}
+
+/* Animación cuando el micrófono está grabando */
+.control-btn.recording {
+    color: #E8002D;
+    animation: pulse-mic 1.5s infinite;
+}
+
+@keyframes pulse-mic {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
 }
