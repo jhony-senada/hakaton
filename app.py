@@ -25,6 +25,8 @@ client = ElevenLabs(
 # Rutas de interfaz (HTML)
 # 
 
+print("Version2")
+
 @app.route('/')
 def index():
     if 'matricula' in session:
