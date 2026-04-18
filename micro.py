@@ -1,9 +1,8 @@
-import secrets
 import asyncio
 import base_de_datos as db # ¡Aquí estamos conectando con tu archivo de SQLite3!
 from google import genai
 
-client = genai.Client(api_key=secrets.key)
+client = genai.Client(api_key=os.getenv("GEMINI-KEY"))
 
 async def procesar_mensaje_usuario(sesion_activa, mensaje_usuario):
     matricula = sesion_activa.get("matricula", "INVITADO") 
