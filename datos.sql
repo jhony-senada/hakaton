@@ -27,7 +27,7 @@ INSERT INTO eventos_calendario (id_evento, titulo, tipo, fecha, ubicacion, rol_r
 -- 5. USUARIOS (Tus tres niveles de acceso)
 INSERT INTO usuarios (matricula, nombre, rol, id_grupo) VALUES
 ('UAQ-ADMIN', 'Coordinación Académica', 'admin', NULL),
-('UAQ-345678', 'José Carlos Cabello Silva', 'usuario', 'ISW-4A'),
+('333306', 'José Carlos Cabello Silva', 'usuario', 'ISW-4A'),
 ('INV-001', 'Visitante General', 'invitado', NULL);
 
 -- 6. CLASES Y HORARIOS (Ligados al grupo ISW-4A)

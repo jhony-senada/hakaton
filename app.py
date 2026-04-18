@@ -7,8 +7,6 @@ import io # <-- Agrega esto para manejar el archivo de audio en la memoria
 
 app = Flask(__name__)
 
-print("Version 2")
-
 http_client_inseguro = httpx.Client(verify=False)
 
 client = ElevenLabs(
