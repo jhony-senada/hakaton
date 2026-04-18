@@ -69,6 +69,34 @@ def chat_bot():
     respuesta = asyncio.run(micro.procesar_mensaje_usuario(sesion_activa, mensaje_usuario))
     return jsonify({"respuesta": respuesta})
 
+@app.route('/api/transcribe', methods=['POST'])
+def transcribir_audio():
+    # 1. Verificamos que el archivo venga en la petición
+    if 'audio' not in request.files:
+        return jsonify({"error": "No se recibió ningún archivo de audio"}), 400
+
+    audio_file = request.files['audio']
+    
+    # 2. Convertimos el archivo (FileStorage de Flask) a BytesIO para que ElevenLabs lo acepte
+    audio_data = io.BytesIO(audio_file.read())
+    
+    # Es crucial asignarle un nombre con la extensión correcta para que la API de ElevenLabs detecte el formato
+    audio_data.name = "grabacion.webm" 
+
+    try:
+        # 3. Llamamos al modelo Scribe de ElevenLabs para Speech-to-Text
+        resultado = client.speech_to_text.convert(
+            file=audio_data,
+            model_id="scribe_v1" # Puedes intentar también con "scribe_v2" según lo que te permita tu plan
+        )
+        
+        # 4. Devolvemos el texto transcrito al frontend
+        return jsonify({"text": resultado.text})
+        
+    except Exception as e:
+        print(f"Error en ElevenLabs STT: {e}")
+        return jsonify({"error": "Hubo un problema procesando el audio"}), 500
+
 @app.route('/recibir_mensaje', methods=['POST'])
 def recibir():
     # Recibimos el texto que envía el JS (mensaje_ia)
