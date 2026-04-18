@@ -3,7 +3,7 @@ import utilities.base_de_datos as db # ¡Aquí estamos conectando con tu archivo
 from google import genai
 import os
 
-client = genai.Client(api_key=os.getenv("GEMINI_KEY"))
+#?client = genai.Client(api_key=os.getenv("GEMINI_KEY"))
 
 async def procesar_mensaje_usuario(sesion_activa, mensaje_usuario):
     matricula = sesion_activa.get("matricula", "INVITADO") 
@@ -62,6 +62,10 @@ async def procesar_mensaje_usuario(sesion_activa, mensaje_usuario):
 async def enviar_a_gemini(prompt_final, pregunta_del_alumno: str)->str:
     prompt = f"{prompt_final} PREGUNTA DEL USUARIO: {pregunta_del_alumno}"
     try:
+        # ✅ CREAMOS el cliente DENTRO de la función.
+        # De esta forma, siempre usará el "Event Loop" activo de Flask.
+        client = genai.Client(api_key=os.getenv("GEMINI_KEY"))
+        
         response = await client.aio.models.generate_content(
             model="gemini-2.5-flash-lite-latest", 
             contents=prompt
